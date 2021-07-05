@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+    "tasks": [
+        {
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Generate",
+            "type": "process",
+            "command": "ag.cmd",
+            "options": {
+                "cwd": "./generator"
+            },
+            "args": [
+                "../asyncapi.yml",
+                "csharp-server",
+                "--output",
+                "C:\\Users\\byron\\Repositories\\AsyncApiProject\\.generated",
+                "--force-write"
+            ],
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
+        }
+    ]
+}

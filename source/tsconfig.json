@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "inlineSourceMap": true,
+      "target": "es5",
+      "rootDir": "./src",
+      "outDir": "./generator",    
+      "jsx": "react-jsx",
+      "lib": ["es5", "es6", "dom"],
+      "sourceMap": false,
+      "moduleResolution": "node",
+      "removeComments": false,
+      "skipLibCheck": true,
+    },
+    "exclude": [
+      "node_modules",
+      "typings"
+    ]
+  }

@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "request": "launch",
+        "name": "Debug template",
+        "timeout": 10000,
+        "sourceMaps": true,
+        "args": [
+          "../asyncapi.yml",
+          "csharp-server",
+          "--output",
+          "C:\\Users\\byron\\Repositories\\AsyncApiProject\\.generated",
+          "--force-write"
+      ],
+        "program": "C:\\Users\\byron\\Repositories\\asyncapi-sharp\\generator\\node_modules\\.bin\\ag.cmd"
+      }
+    ]
+  }

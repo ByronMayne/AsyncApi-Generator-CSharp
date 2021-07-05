@@ -1,0 +1,443 @@
+{
+  "asyncapi": {
+    "_json": {
+      "asyncapi": "2.0.0",
+      "info": {
+        "title": "Streetlights API",
+        "version": "1.0.0",
+        "description": "The Smartylighting Streetlights API allows you to remotely manage the city lights.",
+        "license": {
+          "name": "Apache 2.0",
+          "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+      },
+      "servers": {
+        "mosquitto": {
+          "url": "mqtt://test.mosquitto.org",
+          "protocol": "ws"
+        }
+      },
+      "channels": {
+        "users": {
+          "publish": {
+            "summary": "Allows for editing of the users",
+            "message": {
+              "oneOf": [
+                {
+                  "title": "Add a new user",
+                  "name": "AddUser",
+                  "description": "Takes in user information and creates a new entery for them in the database.",
+                  "payload": {
+                    "name": "UserInfo",
+                    "type": "object",
+                    "required": [
+                      "username"
+                    ],
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "description": "The unique name of the user",
+                        "x-parser-schema-id": "<anonymous-schema-1>"
+                      },
+                      "firstName": {
+                        "type": "string",
+                        "description": "the first name of the person",
+                        "x-parser-schema-id": "<anonymous-schema-2>"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "description": "The last name of the person",
+                        "x-parser-schema-id": "<anonymous-schema-3>"
+                      }
+                    },
+                    "x-parser-schema-id": "userInfo"
+                  },
+                  "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+                  "x-parser-original-payload": {
+                    "name": "UserInfo",
+                    "type": "object",
+                    "required": [
+                      "username"
+                    ],
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "description": "The unique name of the user"
+                      },
+                      "firstName": {
+                        "type": "string",
+                        "description": "the first name of the person"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "description": "The last name of the person"
+                      }
+                    }
+                  },
+                  "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+                  "x-parser-message-parsed": true
+                },
+                {
+                  "name": "RemoveUser",
+                  "title": "Remove an existing user",
+                  "description": "Serachs for the user by their username and removes them if they are defined otherwise does nothing.",
+                  "payload": {
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "description": "The name of the user to remove"
+                      }
+                    },
+                    "x-parser-schema-id": "<anonymous-schema-4>"
+                  },
+                  "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+                  "x-parser-original-payload": {
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "description": "The name of the user to remove"
+                      }
+                    }
+                  },
+                  "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+                  "x-parser-message-parsed": true
+                }
+              ]
+            }
+          }
+        },
+        "light/measured": {
+          "subscribe": {
+            "tags": [
+              {
+                "name": "Byron"
+              }
+            ],
+            "summary": "Event raised when the light has been updated",
+            "message": {
+              "name": "LightMeasured",
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Id of the streetlight.",
+                    "x-parser-schema-id": "<anonymous-schema-5>"
+                  },
+                  "lumens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Light intensity measured in lumens.",
+                    "x-parser-schema-id": "<anonymous-schema-6>"
+                  },
+                  "sentAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time when the message was sent.",
+                    "x-parser-schema-id": "<anonymous-schema-7>"
+                  }
+                },
+                "x-parser-schema-id": "LightMeasured"
+              },
+              "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+              "x-parser-original-payload": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Id of the streetlight."
+                  },
+                  "lumens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Light intensity measured in lumens."
+                  },
+                  "sentAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time when the message was sent."
+                  }
+                }
+              },
+              "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+              "x-parser-message-parsed": true
+            }
+          },
+          "publish": {
+            "summary": "Inform about environmental lighting conditions for a particular streetlight.",
+            "operationId": "onLightMeasured",
+            "message": {
+              "name": "LightMeasured",
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Id of the streetlight.",
+                    "x-parser-schema-id": "<anonymous-schema-5>"
+                  },
+                  "lumens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Light intensity measured in lumens.",
+                    "x-parser-schema-id": "<anonymous-schema-6>"
+                  },
+                  "sentAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time when the message was sent.",
+                    "x-parser-schema-id": "<anonymous-schema-7>"
+                  }
+                },
+                "x-parser-schema-id": "LightMeasured"
+              },
+              "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+              "x-parser-original-payload": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Id of the streetlight."
+                  },
+                  "lumens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Light intensity measured in lumens."
+                  },
+                  "sentAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time when the message was sent."
+                  }
+                }
+              },
+              "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+              "x-parser-message-parsed": true
+            }
+          }
+        }
+      },
+      "components": {
+        "messages": {
+          "userMessage": {
+            "contentType": "application/json",
+            "payload": {
+              "properties": {
+                "operation": {
+                  "type": "string"
+                }
+              },
+              "x-parser-schema-id": "<anonymous-schema-8>"
+            },
+            "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-original-payload": {
+              "properties": {
+                "operation": {
+                  "type": "string"
+                }
+              }
+            },
+            "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-message-parsed": true,
+            "x-parser-message-name": "userMessage"
+          },
+          "addUser": {
+            "title": "Add a new user",
+            "name": "AddUser",
+            "description": "Takes in user information and creates a new entery for them in the database.",
+            "payload": {
+              "name": "UserInfo",
+              "type": "object",
+              "required": [
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "The unique name of the user",
+                  "x-parser-schema-id": "<anonymous-schema-1>"
+                },
+                "firstName": {
+                  "type": "string",
+                  "description": "the first name of the person",
+                  "x-parser-schema-id": "<anonymous-schema-2>"
+                },
+                "lastName": {
+                  "type": "string",
+                  "description": "The last name of the person",
+                  "x-parser-schema-id": "<anonymous-schema-3>"
+                }
+              },
+              "x-parser-schema-id": "userInfo"
+            },
+            "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-original-payload": {
+              "name": "UserInfo",
+              "type": "object",
+              "required": [
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "The unique name of the user"
+                },
+                "firstName": {
+                  "type": "string",
+                  "description": "the first name of the person"
+                },
+                "lastName": {
+                  "type": "string",
+                  "description": "The last name of the person"
+                }
+              }
+            },
+            "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-message-parsed": true
+          },
+          "removeUser": {
+            "name": "RemoveUser",
+            "title": "Remove an existing user",
+            "description": "Serachs for the user by their username and removes them if they are defined otherwise does nothing.",
+            "payload": {
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "The name of the user to remove"
+                }
+              },
+              "x-parser-schema-id": "<anonymous-schema-4>"
+            },
+            "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-original-payload": {
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "The name of the user to remove"
+                }
+              }
+            },
+            "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-message-parsed": true
+          },
+          "lightMeasured": {
+            "name": "LightMeasured",
+            "payload": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Id of the streetlight.",
+                  "x-parser-schema-id": "<anonymous-schema-5>"
+                },
+                "lumens": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Light intensity measured in lumens.",
+                  "x-parser-schema-id": "<anonymous-schema-6>"
+                },
+                "sentAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Date and time when the message was sent.",
+                  "x-parser-schema-id": "<anonymous-schema-7>"
+                }
+              },
+              "x-parser-schema-id": "LightMeasured"
+            },
+            "x-parser-original-schema-format": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-original-payload": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Id of the streetlight."
+                },
+                "lumens": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Light intensity measured in lumens."
+                },
+                "sentAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Date and time when the message was sent."
+                }
+              }
+            },
+            "schemaFormat": "application/vnd.aai.asyncapi;version=2.0.0",
+            "x-parser-message-parsed": true
+          }
+        },
+        "schemas": {
+          "userInfo": {
+            "name": "UserInfo",
+            "type": "object",
+            "required": [
+              "username"
+            ],
+            "properties": {
+              "username": {
+                "type": "string",
+                "description": "The unique name of the user",
+                "x-parser-schema-id": "<anonymous-schema-1>"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "the first name of the person",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "The last name of the person",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
+            "x-parser-schema-id": "userInfo"
+          },
+          "LightMeasured": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Id of the streetlight.",
+                "x-parser-schema-id": "<anonymous-schema-5>"
+              },
+              "lumens": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Light intensity measured in lumens.",
+                "x-parser-schema-id": "<anonymous-schema-6>"
+              },
+              "sentAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time when the message was sent.",
+                "x-parser-schema-id": "<anonymous-schema-7>"
+              }
+            },
+            "x-parser-schema-id": "LightMeasured"
+          }
+        }
+      },
+      "x-parser-spec-parsed": true
+    }
+  },
+  "params": {
+    "namespace": "AsyncApi",
+    "jsonLibrary": "SystemText",
+    "outputKind": "server"
+  },
+  "originalAsyncAPI":"# yaml-language-server: $schema=https: //raw.githubusercontent.com/asyncapi/spec/2.0.0/versions/2.0.0/schema.json\r\nasyncapi: \"2.0.0\"\r\ninfo:\r\n  title: Streetlights API\r\n  version: \"1.0.0\"\r\n  description: The Smartylighting Streetlights API allows you to remotely manage the city lights.\r\n  license:\r\n    name: Apache 2.0\r\n    url: \"https://www.apache.org/licenses/LICENSE-2.0\"\r\nservers:\r\n  mosquitto:\r\n    url: mqtt://test.mosquitto.org\r\n    protocol: ws\r\nchannels:\r\n  users:\r\n    publish:\r\n      summary: Allows for editing of the users\r\n      message:\r\n        oneOf:\r\n          - $ref: \"#/components/messages/addUser\"\r\n          - $ref: \"#/components/messages/removeUser\"\r\n\r\n  light/measured:\r\n    subscribe:\r\n      tags: \r\n   
+     - name: Byron\r\n      summary: Event raised when the light has been updated\r\n      message:\r\n        $ref: \"#/components/messages/lightMeasured\"\r\n    publish:\r\n      summary: Inform about environmental lighting conditions\r\n        for a particular 
+streetlight.\r\n      operationId: onLightMeasured\r\n      message:\r\n        $ref: \"#/components/messages/lightMeasured\"\r\ncomponents:\r\n  messages:\r\n    userMessage:\r\n      contentType: application/json\r\n      payload:\r\n        properties:\r\n       
+   operation:\r\n            type:\r\n              string\r\n    addUser:\r\n      title: Add a new user \r\n      name: AddUser\r\n      description: \r\n        Takes in user information and creates a new entery for\r\n        them in the database.\r\n      payload:\r\n        $ref: \"#/components/schemas/userInfo\"\r\n    removeUser:\r\n      name: RemoveUser\r\n      title: Remove an existing user\r\n      description: \r\n        Serachs for the user by their username and removes them\r\n        if they are defined otherwise does nothing.\r\n      payload:\r\n        properties:\r\n          username:\r\n            type: string\r\n            description: The name of the user to remove\r\n    lightMeasured:\r\n      name: LightMeasured\r\n      payload:\r\n        $ref: \"#/components/schemas/LightMeasured\"\r\n  schemas:\r\n    userInfo:\r\n      name: \"UserInfo\"\r\n      type: object\r\n      required:\r\n 
+       - username\r\n      properties: \r\n        username:\r\n          type: string\r\n          description: The unique name of the user \r\n        firstName:\r\n          type: string\r\n          description: the first name of the person\r\n        lastName:\r\n          type: string\r\n          description: The last name of the person \r\n\r\n    LightMeasured:\r\n      type: object\r\n 
+     properties:\r\n        id:\r\n          type: integer\r\n          minimum: 0\r\n          description: Id of the streetlight.\r\n        lumens:\r\n          type: integer\r\n          minimum: 0\r\n          description: Light intensity measured in lumens.\r\n        sentAt:\r\n          type: string\r\n          format: date-time\r\n          description: Date and time when the message was sent.\r\n"}

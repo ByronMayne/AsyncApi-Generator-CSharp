@@ -1,0 +1,14 @@
+{
+    "search.exclude": {
+        "**/_transpiled/**": true
+    },
+    "files.watcherExclude": {
+        "_output": true
+    },
+    "files.exclude": {
+        "__transpiled": true,
+        "**/node_modules/**": true,
+        "**/__transpiled/**": true
+    },
+    "god.tsconfig": "./tsconfig.json"
+}

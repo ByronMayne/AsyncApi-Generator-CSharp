@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/asyncapi/spec/2.0.0/versions/2.0.0/schema.json
+asyncapi: "2.0.0"
+info:
+  title: Streetlights API
+  version: "1.0.0"
+  description: The Smartylighting Streetlights API allows you to remotely manage the city lights.
+  license:
+    name: Apache 2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+servers:
+  development:
+    url: dev.example.server.com,
+    protocol: ws
+    description: "The server used in a development environment"
+  production:
+    url: example.server.com,
+    protocol: ws
+    description: "The server used in a production environment"
+    bindings:
+      ws:
+        
+channels:
+  users:
+    publish:
+      summary: Allows for editing of the users
+      message:
+        oneOf:
+          - $ref: "#/components/messages/addUser"
+          - $ref: "#/components/messages/removeUser"
+
+  light/measured:
+    subscribe:
+      tags: 
+        - name: Byron
+      summary: Event raised when the light has been updated
+      message:
+        $ref: "#/components/messages/lightMeasured"
+    publish:
+      summary: Inform about environmental lighting conditions
+        for a particular streetlight.
+      operationId: onLightMeasured
+      message:
+        $ref: "#/components/messages/lightMeasured"
+components:
+  messages:
+    userMessage:
+      contentType: application/json
+      payload:
+        properties:
+          operation:
+            type:
+              string
+    addUser:
+      title: Add a new user 
+      name: AddUser
+      description: 
+        Takes in user information and creates a new entery for
+        them in the database.
+      payload:
+        $ref: "#/components/schemas/userInfo"
+    removeUser:
+      name: RemoveUser
+      title: Remove an existing user
+      description: 
+        Serachs for the user by their username and removes them
+        if they are defined otherwise does nothing.
+      payload:
+        properties:
+          username:
+            type: string
+            description: The name of the user to remove
+    lightMeasured:
+      name: LightMeasured
+      payload:
+        $ref: "#/components/schemas/LightMeasured"
+  schemas:
+    userInfo:
+      name: "UserInfo"
+      type: object
+      required:
+        - username
+      properties: 
+        username:
+          type: string
+          description: The unique name of the user 
+        firstName:
+          type: string
+          description: the first name of the person
+        lastName:
+          type: string
+          description: The last name of the person 
+
+    LightMeasured:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 0
+          description: Id of the streetlight.
+        lumens:
+          type: integer
+          minimum: 0
+          description: Light intensity measured in lumens.
+        sentAt:
+          type: string
+          format: date-time
+          description: Date and time when the message was sent.
